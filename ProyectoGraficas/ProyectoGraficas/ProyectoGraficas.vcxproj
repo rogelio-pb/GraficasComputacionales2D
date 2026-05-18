@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClCompile Include="source\main2.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Prerequisites.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
