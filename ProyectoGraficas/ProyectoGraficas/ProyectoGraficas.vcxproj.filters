@@ -19,6 +19,9 @@
     <Filter Include="Archivos de origen\Core">
       <UniqueIdentifier>{30b77d0a-2e13-45ec-83d9-dbda85c81a55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\ESC">
+      <UniqueIdentifier>{e02c822b-5976-48b0-a05e-43d844726e04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main2.cpp">
@@ -40,6 +43,12 @@
     </ClInclude>
     <ClInclude Include="include\Core\CShape.h">
       <Filter>Archivos de encabezado\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\Types.h">
+      <Filter>Archivos de encabezado\ESC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\SparseSet.h">
+      <Filter>Archivos de encabezado\ESC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

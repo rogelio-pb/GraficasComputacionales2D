@@ -26,6 +26,8 @@
   <ItemGroup>
     <ClInclude Include="include\Core\CShape.h" />
     <ClInclude Include="include\Core\Window.h" />
+    <ClInclude Include="include\ESC\SparseSet.h" />
+    <ClInclude Include="include\ESC\Types.h" />
     <ClInclude Include="include\Prerequisites.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
