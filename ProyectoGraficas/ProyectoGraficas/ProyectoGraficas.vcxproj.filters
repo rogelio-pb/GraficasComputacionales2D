@@ -50,5 +50,8 @@
     <ClInclude Include="include\ESC\SparseSet.h">
       <Filter>Archivos de encabezado\ESC</Filter>
     </ClInclude>
+    <ClInclude Include="include\ESC\ComponentPool.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
