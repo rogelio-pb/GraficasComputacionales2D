@@ -13,6 +13,9 @@
 #include <cstdint>
 #include <limits>
 #include <cassert>
+#include <tuple>
+#include <cstddef>
+#include <queue>
 
 //third parties
 #include <SFML/Graphics.hpp>
