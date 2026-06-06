@@ -53,5 +53,14 @@
     <ClInclude Include="include\ESC\ComponentPool.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="include\ESC\View.h">
+      <Filter>Archivos de encabezado\ESC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\Registry.h">
+      <Filter>Archivos de encabezado\ESC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\System.h">
+      <Filter>Archivos de encabezado\ESC</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
