@@ -15,7 +15,7 @@ Window::Window(int width, int height, const std::string& title)
 		ERROR("Window", "window", "Failed to create window");
 	}
 }
-Window::~Window() = default;
+
 
 bool 
 Window::isOpen() const
