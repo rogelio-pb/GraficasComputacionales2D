@@ -7,6 +7,10 @@
 namespace ESC {
 	class Registry {
 	public:
+		/**
+ * @brief Crea una entidad nueva.
+ * @return ID de la entidad creada.
+ */
 		EntityID CreateEntity() {
 			EntityIndex idx;
 			if (!m_freeList.empty()) {
@@ -22,8 +26,13 @@ namespace ESC {
 			m_entities[idx] = id;
 			return id;
 		}
+		/**
+	* @brief Elimina una entidad y sus componentes.
+	* @param entity Entidad a destruir.
+	*/
 		void
 			DestroyEntity(EntityID entity) {
+
 		  assert(IsAlive(entity) && "Intentando destruir una entidad no valida");
 
 			for (auto& [typeID, pool] : m_componentPools) {
@@ -35,6 +44,11 @@ namespace ESC {
 				m_freeList.push(idx);
 			}
 		}
+		/**
+				 * @brief Revisa si una entidad sigue existiendo.
+				 * @param entity Entidad a comprobar.
+				 * @return true si existe.
+				 */
 		[[nodiscard]] bool
 			IsAlive(EntityID entity) const noexcept {
 			const EntityIndex idx = GetEntityIndex(entity);
@@ -52,6 +66,10 @@ namespace ESC {
 		}
 
 		template<typename T, typename... Args> T&
+			/**
+  * @brief Quita un componente de una entidad.
+  * @tparam T Tipo de componente.
+  */
 			AddComponent(EntityID entity, Args&&... args) {
 			assert(IsAlive(entity) && "Intentando agregar un componente a una entidad no valida");
 			return GetOrCreatePool<T>()->Add(entity, std::forward<Args>(args)...);
@@ -120,18 +138,30 @@ namespace ESC {
 			m_systems.push_back(std::move(system));
 			return ref;
 		}
+		/**
+  * @brief Actualiza todos los sistemas.
+  * @param deltaTime Tiempo entre frames.
+  */
 		void UpdateSystems(float deltaTime)
 		{
 			for (auto& system : m_systems)
 				if (system->IsEnabled())
 					system->OnUpdate(*this, deltaTime);
 		}
+
+		/**
+		 * @brief Elimina todos los sistemas.
+		 */
 		void RemoveAllSystems()
 		{
 			for (auto& system : m_systems)
 				system->OnDestroy(*this);
 			m_systems.clear();
 		}
+
+		/**
+		 * @brief Limpia completamente el registro.
+		 */
 
 		//utilidades
 		void

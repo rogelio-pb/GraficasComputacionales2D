@@ -28,7 +28,11 @@ Window::isOpen() const
 		return false;
 	}
 }
-
+	
+/**
+ * @brief limpia la ventana con un color
+ * @param color Color de fondo
+ */
 	void
 		Window::clear(const sf::Color & color) {
 		if (m_window) {
@@ -40,6 +44,11 @@ Window::isOpen() const
 
 		}
 	}
+	/**
+	 * @brief Dibuja un objeto en la ventana
+	 * @param drawable Objeto a dibujar
+	 * @param States Estados de renderizado
+	 */
 
 	void
 		Window::draw(const sf::Drawable & drawable, const sf::RenderStates & States) {

@@ -6,6 +6,10 @@ namespace ESC {
 	template<typename... Components>
 	class View {
 	public:
+  /**
+  * @brief Constructor de la vista
+  * @param pools Pools de los componentes a consulta
+  */
 		explicit View(ComponentPool<Components>*... pools) noexcept
 			: m_pools(pools...) {
 			FinSmallest();
@@ -32,6 +36,10 @@ namespace ESC {
 				}
 			}
 		}
+		/**
+	* @brief Rrcorre solamente las entidades
+	* @param func funcion a ejecutar
+	*/
 
 		//iteracion solo de entidades
 		template<typename Func>
@@ -50,6 +58,10 @@ namespace ESC {
 		[[nodiscard]] std::size_t Size() const noexcept { return m_smallest ? m_smallest->Size() : 0; }
 
 	private:
+		/**
+   * @brief Busca el pool con menos entidads
+   * se usa para hacer la iteración más rapdda
+   */
 		template < std::size_t I = 0> 
 		void FinSmallest() noexcept {
 			if constexpr (I < sizeof...(Components)) {
@@ -70,6 +82,10 @@ namespace ESC {
 
 	private:
 		std::tuple<ComponentPool<Components>*...>m_pools;
+		/**
+	* @brief Pool mas pequeño encontrado
+	* Se usa para iterarmenos entidades y mejorar rendimiento
+	*/
 		const SparseSet* m_smallest = nullptr; //puntero al SparseSet del pool con menos entidades, para iterar eficientemente
 		
 		

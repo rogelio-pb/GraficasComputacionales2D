@@ -1,6 +1,11 @@
 #pragma once
 #include "Prerequisites.h"
 class Window;
+/**
+ * @brief Clase para manejar figuras de SFML.
+ *
+ * Permite crear y dibujar diferentes tipos de figuras.
+ */
 class CShape
 {
 public:

@@ -4,6 +4,11 @@
 CShape::CShape(ShapeType shapeType) :m_shapeType(shapeType), m_shape(createShape(shapeType)) {
 }
 
+
+/**
+ * @brief dibuja la figura en la ventana
+ * @param window Ventana donde se dibuja
+ */
 void
 CShape::draw(Window& window) {
 	if (m_shape) {
@@ -11,10 +16,19 @@ CShape::draw(Window& window) {
 	}
 }
 
+/**
+ * @brief obtiene la figra almacenada
+ * @return Puntero a la figura
+ */
 sf::Shape* CShape::getShape()
 {
 	return m_shape.get();
 }
+
+/**
+ * @brirf Cra una figura según el tipo indicado
+ * dependiendo del valor recibido, crea un círculo, etc.
+ */
 std::unique_ptr<sf::Shape>
 CShape::createShape(ShapeType shapeType) {
 	switch (shapeType)
