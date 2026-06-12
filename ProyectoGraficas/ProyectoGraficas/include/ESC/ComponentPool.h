@@ -4,19 +4,19 @@
 
 namespace ESC {
 	class IComonentPool : public SparseSet {
-	public:
-		virtual ~IComonentPool() = default;
+		public:
+			virtual ~IComonentPool() = default;
 		
-		//elimina la entidad del pool, si existe
-		virtual void Remove(EntityID entity) = 0;
+			//elimina la entidad del pool, si existe
+			virtual void Remove(EntityID entity) = 0;
 
-  /**
-  * @brief obtiene un puntero sin tipo al componente
-  * @param entity Entidad buscada
-  * @return Puntero al componente
-  */
-		//puntero sin tipo al comoponente (para serializar)
-		virtual void* GetRaw(EntityID entity) noexcept = 0;
+	/**
+	* @brief obtiene un puntero sin tipo al componente
+	* @param entity Entidad buscada
+	* @return Puntero al componente
+	*/
+			//puntero sin tipo al comoponente (para serializar)
+			virtual void* GetRaw(EntityID entity) noexcept = 0;
 
 	};
 	

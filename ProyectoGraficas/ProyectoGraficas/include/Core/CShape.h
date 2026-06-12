@@ -15,14 +15,14 @@ public:
 	void
 		draw(Window& window);
 
-	sf::Shape* 
+		sf::Shape* 
 		getShape();
-private:
-	static std::unique_ptr<sf::Shape> createShape(ShapeType shapeType);
+	private:
+		static std::unique_ptr<sf::Shape> createShape(ShapeType shapeType);
 
-private:
-	std::unique_ptr<sf::Shape> m_shape = nullptr;
-	ShapeType m_shapeType;
+	private:
+		std::unique_ptr<sf::Shape> m_shape = nullptr;
+		ShapeType m_shapeType;
 	
 
 };
