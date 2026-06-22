@@ -19,6 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\ThirdParties\imgui-docking\imgui.cpp" />
+    <ClCompile Include="..\ThirdParties\imgui-docking\imgui_demo.cpp" />
+    <ClCompile Include="..\ThirdParties\imgui-docking\imgui_draw.cpp" />
+    <ClCompile Include="..\ThirdParties\imgui-docking\imgui_tables.cpp" />
+    <ClCompile Include="..\ThirdParties\imgui-docking\imgui_widgets.cpp" />
+    <ClCompile Include="..\ThirdParties\imgui-sfml-3.0\imgui-SFML.cpp" />
     <ClCompile Include="source\Core\CShape.cpp" />
     <ClCompile Include="source\Core\Window.cpp" />
     <ClCompile Include="source\main2.cpp" />
@@ -27,9 +33,12 @@
     <ClInclude Include="include\Core\CShape.h" />
     <ClInclude Include="include\Core\Window.h" />
     <ClInclude Include="include\ESC\ComponentPool.h" />
+    <ClInclude Include="include\ESC\Components\Render.h" />
+    <ClInclude Include="include\ESC\Components\Transform.h" />
     <ClInclude Include="include\ESC\Registry.h" />
     <ClInclude Include="include\ESC\SparseSet.h" />
     <ClInclude Include="include\ESC\System.h" />
+    <ClInclude Include="include\ESC\System\RenderSystem.h" />
     <ClInclude Include="include\ESC\Types.h" />
     <ClInclude Include="include\ESC\View.h" />
     <ClInclude Include="include\Prerequisites.h" />
@@ -110,14 +119,14 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>./include/;$(SolutionDir)ThirdParties\SFML-3.1.0\include;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include/;$(SolutionDir)ThirdParties\SFML-3.1.0\include;(AdditionalIncludeDirectories);$(SolutionDir)ThirdParties\imgui-docking;$(SolutionDir)ThirdParties\imgui-sfml-3.0</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;$(SolutionDir)ThirdParties\SFML-3.1.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)/lib/$(PlatformTarget)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
@@ -130,14 +139,14 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>./include/;$(SolutionDir)ThirdParties\SFML-3.1.0\include;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include/;$(SolutionDir)ThirdParties\SFML-3.1.0\include;(AdditionalIncludeDirectories);$(SolutionDir)ThirdParties\imgui-docking;$(SolutionDir)ThirdParties\imgui-sfml-3.0</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;$(SolutionDir)ThirdParties\SFML-3.1.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)/lib/$(PlatformTarget)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
@@ -148,14 +157,14 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>./include/;$(SolutionDir)ThirdParties\SFML-3.1.0\include;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include/;$(SolutionDir)ThirdParties\SFML-3.1.0\include;(AdditionalIncludeDirectories);$(SolutionDir)ThirdParties\imgui-docking;$(SolutionDir)ThirdParties\imgui-sfml-3.0</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;$(SolutionDir)ThirdParties\SFML-3.1.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)/lib/$(PlatformTarget)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
@@ -168,14 +177,14 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>./include/;$(SolutionDir)ThirdParties\SFML-3.1.0\include;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include/;$(SolutionDir)ThirdParties\SFML-3.1.0\include;(AdditionalIncludeDirectories);$(SolutionDir)ThirdParties\imgui-docking;$(SolutionDir)ThirdParties\imgui-sfml-3.0</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;$(SolutionDir)ThirdParties\SFML-3.1.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)/lib/$(PlatformTarget)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>

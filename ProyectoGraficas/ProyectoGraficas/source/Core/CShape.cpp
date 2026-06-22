@@ -83,5 +83,4 @@ CShape::createShape(ShapeType shapeType) {
 	default:
 		return nullptr;
 	}
-	return std::unique_ptr<sf::Shape>();
 }

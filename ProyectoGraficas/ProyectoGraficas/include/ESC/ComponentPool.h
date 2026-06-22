@@ -2,13 +2,13 @@
 #include "Prerequisites.h"
 #include "ESC/SparseSet.h"
 
-namespace ESC {
+namespace ECS {
 	class IComonentPool : public SparseSet {
 		public:
 			virtual ~IComonentPool() = default;
 		
 			//elimina la entidad del pool, si existe
-			virtual void Remove(EntityID entity) = 0;
+			virtual void RemoveEntity(EntityID entity) = 0;
 
 	/**
 	* @brief obtiene un puntero sin tipo al componente
@@ -31,7 +31,7 @@ namespace ESC {
    * @return Referencia al componente creado
    */
 		template <typename... Args>
-		Add(EntityID enity, Args&&... args) {
+		T& Add (EntityID entity, Args&&... args) {
 			assert(!Contains(entity) && "La entidad ya tiene este componente");
 			InsertEntity(entity);//registra la entidad en el SparseSet y obtiene su indice denso
 			m_components.emplace_back(std::forward<Args>(args)...);
@@ -46,18 +46,18 @@ namespace ESC {
 		[[nodiscard]] T&
 			Get(EntityID entity) noexcept {
 			assert(Contains(entity) && "La entidad no tiene este componente");
-			return m_component[m_sparse[GetEntityIndex(entity)]];
+			return m_components[m_sparse[GetEntityIndex(entity)]];
 		}
 		[[nodiscard]] T&
 			Get(EntityID entity) const noexcept {
 			assert(Contains(entity) && "La entidad no tiene este componente");
-			return m_component[m_sparse[GetEntityIndex(entity)]];
+			return m_components[m_sparse[GetEntityIndex(entity)]];
 		}
 		//Devuelve nullptr si la entidad no tiene el componente
 		[[nodiscard]] T*
 			TryGet(EntityID entity) noexcept {
 			if (!Contains(entity)) return nullptr;
-			return &m_components[m_parse[GetEntityIndex(entity)]];
+			return &m_components[m_sparse[GetEntityIndex(entity)]];
 		}
  /**
  * @brif eimina un componente
@@ -93,7 +93,7 @@ namespace ESC {
 
 		//Acceso masivo util para el serializer /  sistemas-------
 		[[nodiscard]] std::vector<T>&
-			GetComponent() noexcept { return m_component;  }
+			GetComponent() noexcept { return m_components;  }
 
  /**
  * @brief Devuelve todos los componentes en modo constante

@@ -11,7 +11,7 @@
 //OnUpdate --> llamado ca frame
 //OnStop --> llamado l destruir o desregistrar ek sistema 
 
-namespace ESC {
+namespace ECS {
 	class Registry;
 	/**
  * @brief clase base para crear sistemas.

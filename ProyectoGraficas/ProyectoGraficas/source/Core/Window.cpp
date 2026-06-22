@@ -11,22 +11,22 @@ Window::Window(int width, int height, const std::string& title)
 		MESSAGE("Window", "Window", "Window created successfully");
 
 	}
-	else {
+		else {
 		ERROR("Window", "window", "Failed to create window");
 	}
 }
 
 
-bool 
-Window::isOpen() const
-{
-	if (m_window) {
+	bool
+		Window::isOpen() const {
+	// Check that window is not null
+		if (m_window) {
 		return m_window && m_window->isOpen();
-	}
-	else {
-		ERROR("Window", "isOpen", "Window is not initialized");
+			}
+		else {
+		ERROR("Window", "isOpen", "Window is null");
 		return false;
-	}
+			}
 }
 	
 /**

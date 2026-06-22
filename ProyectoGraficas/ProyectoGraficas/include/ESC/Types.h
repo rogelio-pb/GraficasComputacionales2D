@@ -8,7 +8,7 @@
  * @fule Types.h
  * @brief Define los tipos básicos usados por el ECS
  */
-namespace ESC {
+namespace ECS {
 	//Tipos primitivos
 	using EntityIndex = uint32_t;//indice de entidad en el array de entidades
 	using EntityVersion = uint32_t;//version de la entidad, se incrementa cada vez que se reutiliza el indice

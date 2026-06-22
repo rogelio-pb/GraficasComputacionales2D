@@ -1,67 +1,93 @@
-/**
- * @file main.cpp
- * @brief punto de entrada principal de la aplicacion
- * ste archivo crea una ventana graficainstancia una figura
- * de tipo cíiculo y ejecuta el ciclo principal de renderizado
- * hasta que el usuario cierre la ventana
- */
-
 #include "Prerequisites.h"
 #include "Core/Window.h"
 #include "Core/CShape.h"
-Window* g_window = nullptr;
-/**
- * @brief ojeto gráfico de tipo circulo
- *representa la figura que será dibujada en la ventana durante
- * cada iteración del ciclo principal
- */
-CShape Circle(ShapeType::CIRCLE);
+#include "ESC/Registry.h"
+#include "ESC/Components/Transform.h"
+#include "ESC/Components/Render.h"
+#include "ESC/System/RenderSystem.h"
 
-void destroy() {
-	SAFE_PTR_RELEASE(g_window);
+Window g_window(Window(800, 600, "Labrid Engine"));
+ECS::Registry registry;
+
+void destroy()
+{
+    ImGui::SFML::Shutdown();
 }
-/**
- * @brief Función principal de la aplicación
- * Crea una ventana
- * Procesa eventos del sistem
- * Limpia la pantalla en cada fotograma
- * Dibuja un crculo en la ventan
- * Actualiza la pantalla
- *Libera los recursos antes de finalizar
- * @retrn int Retorna 0 si la ejecución finaliza correctamente
- */
 
 int main()
 {
-    // create the window
-    g_window = new Window(800, 600, "My window");
+    registry.AddSystem<ECS::RenderSystem>(g_window);
 
-    //shape.setFillColor(sf::Color(100, 250, 50));
-    // run the program as long as the window is open
-    while (g_window->isOpen())
+    // m_window es un puntero a sf::RenderWindow.
+    if (!ImGui::SFML::Init(*g_window.m_window))
     {
-        // check all the window's events that were triggered since the last iteration of the loop
-        while (const std::optional event = g_window->m_window->pollEvent())
-        {
-            // "close requested" event: we close the window
-            if (event->is<sf::Event::Closed>()) {
-                g_window->close();
+        return -1;
+    }
 
+    // Habilitar docking.
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+    sf::Clock deltaClock;
+    bool showDemoWindow = true;
+
+    ECS::EntityID circle = registry.CreateEntity();
+
+    registry.AddComponent<ECS::Transform>(circle, sf::Vector2f{ 400.f, 300.f });
+
+    registry.AddComponent<ECS::Render>(circle, ECS::Render::Make(CIRCLE, sf::Color(100, 250, 50)));
+
+    ECS::EntityID tri = registry.CreateEntity();
+
+    registry.AddComponent<ECS::Transform>(tri, sf::Vector2f{ 200.f, 200.f }, 45.f);
+
+    registry.AddComponent<ECS::Render>(tri, ECS::Render::Make(TRIANGLE, sf::Color::Cyan));
+
+    while (g_window.isOpen()) {
+        while (const std::optional event =
+            g_window.m_window->pollEvent()) {
+            // ImGui debe recibir todos los eventos de SFML.
+            ImGui::SFML::ProcessEvent(
+                *g_window.m_window,
+                *event
+            );
+
+            if (event->is<sf::Event::Closed>()) {
+                g_window.close();
             }
         }
 
+        const sf::Time elapsedTime = deltaClock.restart();
+        const float dt = elapsedTime.asSeconds();
 
+        // Iniciar el frame de ImGui
+        ImGui::SFML::Update(*g_window.m_window, elapsedTime);
 
-        g_window->clear(sf::Color::Black);
+        ImGuiDockNodeFlags dockspaceFlags =
+            ImGuiDockNodeFlags_PassthruCentralNode;
 
+        ImGui::DockSpaceOverViewport(
+            0,
+            ImGui::GetMainViewport(),
+            dockspaceFlags
+        );
 
-        // draw everything here...
-        Circle.draw(*g_window);
-        //g_window->draw(shape);
+        ImGui::ShowDemoWindow(&showDemoWindow);
 
-        // end the current frame
-        g_window->display();
+        // Limpiar la ventana
+        g_window.clear(sf::Color::Black);
+
+        // Renderizar los elementos de tu ECS
+        registry.UpdateSystems(dt);
+
+        // Renderizar ImGui después de la escena
+        ImGui::SFML::Render(*g_window.m_window);
+
+        // Presentar el frame
+        g_window.display();
     }
+
     destroy();
+
     return 0;
 }

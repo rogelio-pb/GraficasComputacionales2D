@@ -22,6 +22,18 @@
     <Filter Include="Archivos de encabezado\ESC">
       <UniqueIdentifier>{e02c822b-5976-48b0-a05e-43d844726e04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\ESC\System">
+      <UniqueIdentifier>{a51a81e5-5bf9-44a8-9c1a-3c2d7e3854f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\ESC\Components">
+      <UniqueIdentifier>{fdce2795-e238-4660-9145-ba181a0b04ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Imgui">
+      <UniqueIdentifier>{2283196b-a516-4d6e-8a07-7c1837e4ea53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Imgui">
+      <UniqueIdentifier>{9281a50b-4919-4968-85ba-77ec66c837ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main2.cpp">
@@ -32,6 +44,24 @@
     </ClCompile>
     <ClCompile Include="source\Core\CShape.cpp">
       <Filter>Archivos de origen\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParties\imgui-sfml-3.0\imgui-SFML.cpp">
+      <Filter>Archivos de origen\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParties\imgui-docking\imgui.cpp">
+      <Filter>Archivos de origen\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParties\imgui-docking\imgui_demo.cpp">
+      <Filter>Archivos de origen\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParties\imgui-docking\imgui_draw.cpp">
+      <Filter>Archivos de origen\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParties\imgui-docking\imgui_tables.cpp">
+      <Filter>Archivos de origen\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParties\imgui-docking\imgui_widgets.cpp">
+      <Filter>Archivos de origen\Imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +91,15 @@
     </ClInclude>
     <ClInclude Include="include\ESC\System.h">
       <Filter>Archivos de encabezado\ESC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\System\RenderSystem.h">
+      <Filter>Archivos de encabezado\ESC\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\Components\Render.h">
+      <Filter>Archivos de encabezado\ESC\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\Components\Transform.h">
+      <Filter>Archivos de encabezado\ESC\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

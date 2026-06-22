@@ -4,7 +4,7 @@
 #include "ESC/System.h"
 #include"ESC/View.h"
 
-namespace ESC {
+namespace ECS {
 	class Registry {
 	public:
 		/**
@@ -36,13 +36,12 @@ namespace ESC {
 		  assert(IsAlive(entity) && "Intentando destruir una entidad no valida");
 
 			for (auto& [typeID, pool] : m_componentPools) {
-				pool->Remove(entity);
-
-				const EntityIndex idx = GetEntityIndex(entity);
-				++m_versions[idx]; //incrementa la version para invalidar IDs antiguos
-				m_entities[idx] = NULL_ENTITY;
-				m_freeList.push(idx);
+				pool->RemoveEntity(entity);
 			}
+			const EntityIndex idx = GetEntityIndex(entity);
+			++m_versions[idx]; //incrementa la version para invalidar IDs antiguos
+			m_entities[idx] = NULL_ENTITY;
+			m_freeList.push(idx);
 		}
 		/**
 				 * @brief Revisa si una entidad sigue existiendo.
@@ -111,7 +110,7 @@ namespace ESC {
 		[[nodiscard]] const T& GetComponent(EntityID entity) const
 		{
 			assert(IsAlive(entity));
-			const auto* pool = GetConst<T>();
+			const auto* pool = GetPoolConst<T>();
 			assert(pool && "GetComponent: pool no ecxiste para este tipo");
 			return pool->Get(entity);
 		}
@@ -182,15 +181,17 @@ namespace ESC {
 			template<typename T> 
 		ComponentPool<T>* GetOrCreatePool()
 		{
-			const ComponentID typeID = GetComponentTypeID<T>();
+			const ComponentTypeID typeID = GetComponentTypeID<T>();
 			auto it = m_componentPools.find(typeID);
-			if (it == mcomponentPools.end())
+			if (it == m_componentPools.end())
 			{
 				auto [newIt, ok] = m_componentPools.emplace(
-					typerID, std::make_unique < ComponentPool<T>*(newIt->second.get());
+					typeID, std::make_unique<ComponentPool<T>>());
+				return static_cast<ComponentPool<T>*>(newIt->second.get());
 			}
-			return static_cast<ComponentPool<T>*>(it->second.get());
+				return static_cast<ComponentPool<T>*>(it->second.get());
 			}
+
 		template<typename T>
 		ComponentPool<T>* GetPool() noexcept {
 			const ComponentTypeID typeID = GetComponentTypeID<T>();
@@ -205,7 +206,7 @@ namespace ESC {
 			const ComponentTypeID typeID = GetComponentTypeID<T>();
 			auto it = m_componentPools.find(typeID);
 			return (it != m_componentPools.end())
-				? static_cast<const CoponentPool<T>*>(it->second.get())
+				? static_cast<const ComponentPool<T>*>(it->second.get())
 				: nullptr;
 		}
 		

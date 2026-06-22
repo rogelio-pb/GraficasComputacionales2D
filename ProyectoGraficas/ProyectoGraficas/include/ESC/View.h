@@ -2,7 +2,7 @@
 #include "Prerequisites.h"
 #include "Esc/ComponentPool.h"
 
-namespace ESC {
+namespace ECS {
 	template<typename... Components>
 	class View {
 	public:

@@ -2,12 +2,12 @@
 #include "Prerequisites.h"
 #include "ESC/Types.h"
 
-namespace ESC {
+namespace ECS {
 	class
 		SparseSet {
 	public:
-		SparseSet();
-		virtual	~SparseSet() = default;
+		SparseSet() = default;
+		virtual ~SparseSet() = default;
 
 
  /**
@@ -27,12 +27,12 @@ namespace ESC {
   * @brief Cantidad de entidades almacenadas.
   * @return Número de entidades.
   */
-		[[nodiscard]] size_t size() const noexcept { return m_dense.size(); }
+		[[nodiscard]] size_t Size() const noexcept { return m_dense.size(); }
  /**
  * @brief Comprueba si el set está vacío.
  * @return true si no hay entidades.
  */
-		[[nodiscard]] bool empty() const noexcept { return m_dense.empty(); }
+		[[nodiscard]] bool Empty() const noexcept { return m_dense.empty(); }
 
 		[[nodiscard]] const std::vector<EntityID>& GetEntities() const noexcept
 		{
