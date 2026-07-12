@@ -107,11 +107,11 @@ namespace ECS {
 		}
 
 		template<typename T>
-		[[nodiscard]] const T& GetComponent(EntityID entity) const
+		[[nodiscard]] T& GetComponent(EntityID entity)
 		{
 			assert(IsAlive(entity));
-			const auto* pool = GetPoolConst<T>();
-			assert(pool && "GetComponent: pool no ecxiste para este tipo");
+			auto* pool = GetPool<T>();
+			assert(pool && "GetComponent: pool no existe para este tipo");
 			return pool->Get(entity);
 		}
 

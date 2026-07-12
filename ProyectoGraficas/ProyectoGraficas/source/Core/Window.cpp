@@ -83,6 +83,38 @@ Window::Window(int width, int height, const std::string& title)
 		}
 	}
 
+	void
+		Window::handleResize(const sf::Vector2u& size) {
+		if (!m_window) {
+			ERROR("Window", "handleResize", "Window is null");
+			return;
+		}
+		//vista 1.1 con el tamanio de la ventana
+		//Centro de la vista en (0,0)
+		//el centro de la pnatalla 
+		const sf::Vector2f fSize(static_cast<float>(size.x),
+			static_cast<float>(size.y));
+		m_baseViewSize = fSize;
+		m_view.setSize(fSize);
+		m_view.setCenter({ 0.f, 0.f });
+		m_window->setView(m_view);
+	}
+
+	void
+		Window::applyCameraView(const sf::Vector2f& center, float zoom, float rotationDeg) {
+		if (!m_window) {
+			ERROR("Window", "apllyCmaeraView", "Window is null");
+			return;
+		}
+		if (zoom <= 0.f) zoom = 1.f;
+
+		m_view.setSize(m_baseViewSize / zoom);
+		m_view.setCenter(center);
+		m_view.setRotation(sf::degrees(rotationDeg));
+		m_window->setView(m_view);
+
+	}
+
 
 		void
 			Window::update() {

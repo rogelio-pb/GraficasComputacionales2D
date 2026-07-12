@@ -101,5 +101,29 @@
     <ClInclude Include="include\ESC\Components\Transform.h">
       <Filter>Archivos de encabezado\ESC\Components</Filter>
     </ClInclude>
+    <ClInclude Include="include\ESC\System\UISystem.h">
+      <Filter>Archivos de encabezado\ESC\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\System\CameraSystem.h">
+      <Filter>Archivos de encabezado\ESC\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\Components\Camera.h">
+      <Filter>Archivos de encabezado\ESC\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\Components\Steering.h">
+      <Filter>Archivos de encabezado\ESC\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Velocity.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\Components\Target.h">
+      <Filter>Archivos de encabezado\ESC\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\System\MovementSystem.h">
+      <Filter>Archivos de encabezado\ESC\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\System\SteeringSystem.h">
+      <Filter>Archivos de encabezado\ESC\System</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -33,15 +33,23 @@
     <ClInclude Include="include\Core\CShape.h" />
     <ClInclude Include="include\Core\Window.h" />
     <ClInclude Include="include\ESC\ComponentPool.h" />
+    <ClInclude Include="include\ESC\Components\Camera.h" />
     <ClInclude Include="include\ESC\Components\Render.h" />
+    <ClInclude Include="include\ESC\Components\Steering.h" />
+    <ClInclude Include="include\ESC\Components\Target.h" />
     <ClInclude Include="include\ESC\Components\Transform.h" />
     <ClInclude Include="include\ESC\Registry.h" />
     <ClInclude Include="include\ESC\SparseSet.h" />
     <ClInclude Include="include\ESC\System.h" />
+    <ClInclude Include="include\ESC\System\CameraSystem.h" />
+    <ClInclude Include="include\ESC\System\MovementSystem.h" />
     <ClInclude Include="include\ESC\System\RenderSystem.h" />
+    <ClInclude Include="include\ESC\System\SteeringSystem.h" />
+    <ClInclude Include="include\ESC\System\UISystem.h" />
     <ClInclude Include="include\ESC\Types.h" />
     <ClInclude Include="include\ESC\View.h" />
     <ClInclude Include="include\Prerequisites.h" />
+    <ClInclude Include="include\Velocity.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>

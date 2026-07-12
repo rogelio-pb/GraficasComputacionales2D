@@ -18,6 +18,7 @@ namespace ECS {
 	struct Render
 	{
 		std::shared_ptr<sf::Shape> shape;			//la forma de dibujar
+		std::shared_ptr<sf::Texture> texture;		//textura opcional
 		sf::Color fillColor{ sf::Color::White };	//Color relleno
 		bool visible{ true };						//permite ocultar sin quitar  el componente
 
@@ -28,8 +29,29 @@ namespace ECS {
 
 		}
 
+		bool SetTexture(const std::string& path, bool resetRect = true) {
+			if (!shape) return false;
+			auto text = std::make_shared<sf::Texture>();
+			if (!text->loadFromFile(path)) return false;
+			texture = std::move(text);
+			shape->setTexture(texture.get(), resetRect);
+			return true;
+		}
+
+		void SetTexture(std::shared_ptr < sf::Texture> text, bool resetRect = true) {
+			if (!shape) return;
+			texture = std::move(text);
+			shape->setTexture(texture ? texture.get() : nullptr, resetRect);
+		}
+
+		void ClearTexture() {
+			if (shape) shape->setTexture(nullptr);
+			texture.reset();
+		}
+
 		[[nodiscard]] static Render
-			Make(ShapeType type, sf::Color color = sf::Color::White) {
+			Make(ShapeType type, sf::Color color = sf::Color::White,
+				const std::string& texturePath = "") { //sprite opcional
 			std::shared_ptr<sf::Shape> s;
 			switch (type) {
 			case CIRCLE: {
@@ -74,8 +96,12 @@ namespace ECS {
 			default:
 				break;
 			}
-			if (s) s->setFillColor(color); return 
-				Render{ s, color };
+			if (s) s->setFillColor(color); 
+				Render render{ s, color };
+			//si se paso una ruta, intenta cargar el sprite (silencioso si falla)
+			if (!texturePath.empty())
+				render.SetTexture(texturePath);
+			return render;
 
 		}
 	

@@ -31,6 +31,7 @@ namespace ECS {
 					r.shape->setRotation(sf::degrees(t.rotation));
 					r.shape->setScale(t.scale);
 					r.shape->setFillColor(r.fillColor);
+					r.shape->setFillColor(r.fillColor);
 
 					m_window.draw(*r.shape);
 

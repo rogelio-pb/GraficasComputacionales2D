@@ -45,6 +45,12 @@ public:
 	void
 		close();
 
+	void
+		handleResize(const sf::Vector2u& size);
+
+	void
+		applyCameraView(const sf::Vector2f& center, float zoom, float rotationDeg = 0.f);
+
 	/**
 	 * @brief Actualiza datos de la ventana.
 	 */
@@ -67,6 +73,8 @@ public:
 	std::unique_ptr<sf::RenderWindow> m_window=nullptr;
 private:
 	sf::View m_view;
+
+	sf::Vector2f m_baseViewSize;
 	sf::Time deltaTime;
 	sf::Clock clock;
 };
