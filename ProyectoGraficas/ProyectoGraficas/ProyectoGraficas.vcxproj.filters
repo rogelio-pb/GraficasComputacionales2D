@@ -125,5 +125,8 @@
     <ClInclude Include="include\ESC\System\SteeringSystem.h">
       <Filter>Archivos de encabezado\ESC\System</Filter>
     </ClInclude>
+    <ClInclude Include="include\ESC\System\SteeringBehaivors.h">
+      <Filter>Archivos de encabezado\ESC\System</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

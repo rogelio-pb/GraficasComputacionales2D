@@ -44,6 +44,7 @@
     <ClInclude Include="include\ESC\System\CameraSystem.h" />
     <ClInclude Include="include\ESC\System\MovementSystem.h" />
     <ClInclude Include="include\ESC\System\RenderSystem.h" />
+    <ClInclude Include="include\ESC\System\SteeringBehaivors.h" />
     <ClInclude Include="include\ESC\System\SteeringSystem.h" />
     <ClInclude Include="include\ESC\System\UISystem.h" />
     <ClInclude Include="include\ESC\Types.h" />

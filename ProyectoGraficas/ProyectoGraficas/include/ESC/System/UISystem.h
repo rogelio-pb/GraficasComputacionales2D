@@ -7,6 +7,7 @@
 #include "ESC/Components/Camera.h"
 #include "ESC/Components/Steering.h"
 #include "ESC/Components/Target.h"
+#include "Velocity.h"
 
 namespace ECS {
 
@@ -84,6 +85,8 @@ namespace ECS {
                               r->fillColor.b / 255.f,
                               r->fillColor.a / 255.f
                             };
+
+                            // Permite modificar el color de relleno del objeto desde el Inspector
                             if (ImGui::ColorEdit4("Fill Color", color)) {
                                 r->fillColor = sf::Color(
                                     static_cast<std::uint8_t>(color[0] * 255.f),
@@ -94,6 +97,9 @@ namespace ECS {
                         }
                     }
 
+                    //Permite activar o desactivar la cámara, modificar el zoom,
+                    //ajustar la velocidad de seguimiento y visualizar el objetivo
+                    //que la cámara está siguiendo
                     if (auto* cam = registry.TryComponent<ECS::Camera>(selectedEntity)) {
                         if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen)) {
                             ImGui::Checkbox("Active", &cam->active);
@@ -112,10 +118,14 @@ namespace ECS {
                     ImGui::TextDisabled("Selecciona una entidad en el outliner.");
                 }
 
+				// Permite modificar los parámetros del componente Steering, incluyendo el tipo de comportamiento, la velocidad máxima, la fuerza máxima y los parámetros específicos de cada comportamiento.
+				//Si el componente Steering está presente en la entidad seleccionada, se muestra un encabezado colapsable con los controles para modificar sus parámetros. Se puede habilitar o deshabilitar el comportamiento de Steering, seleccionar el tipo de comportamiento (Seek, Flee, Arrive, Wander, Pursuit, Obstacle Avoidance) y ajustar la velocidad máxima y la fuerza máxima. Además, se muestran controles adicionales según el tipo de comportamiento seleccionado.
                 if (auto* steering = registry.TryComponent<ECS::Steering>(selectedEntity))
                 {
                     if (ImGui::CollapsingHeader("Steering", ImGuiTreeNodeFlags_DefaultOpen))
                     {
+
+						// Arreglo de cadenas que representa los nombres de los comportamientos disponibles.
                         const char* behaviors[] =
                         {
                                "Seek",
@@ -139,6 +149,12 @@ namespace ECS {
                         {
                             steering->type =
                                 static_cast<ECS::SteeringType>(currentBehavior);
+
+                            if (auto* velocity =
+                                registry.TryComponent<ECS::Velocity>(selectedEntity))
+                            {
+                                velocity->velocity = { 0.f,0.f };
+                            }
                         }
 
                         ImGui::DragFloat(
@@ -215,6 +231,13 @@ namespace ECS {
                                 1.f,
                                 0.f,
                                 500.f);
+
+                            ImGui::DragFloat(
+                                "Avoid Radius",
+                                &steering->avoidRadius,
+                                1.f,
+                                5.f,
+                                300.f);
 
                             break;
                         }

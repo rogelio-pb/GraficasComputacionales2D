@@ -1,3 +1,9 @@
+/**
+ * @file main.cpp
+ * @brief Punto de entrada de la aplicación.
+ * Inicializa la ventana, el sistema ECS, ImGui y crea las entidades
+ * necesarias para probar los diferentes comportamientos de Steering
+ */
 #include "Prerequisites.h"
 #include "Core/Window.h"
 #include "Core/CShape.h"
@@ -20,6 +26,12 @@ void destroy()
     ImGui::SFML::Shutdown();
 }
 
+/**
+ * @brief Función principal del programa
+ * Inicializa la ventana, registra los sistemas del ECS,
+ * crea las entidades de prueba y ejecuta el ciclo principal
+ * del motor hasta que el usuario cierre la aplicación
+ */
 int main()
 {
     // m_window es un puntero a sf::RenderWindow.
@@ -35,9 +47,10 @@ int main()
 
     sf::Clock deltaClock;
 
+	// Crear entidades de prueba con componentes de Transform, Render, Velocity, Steering y Target.
     ECS::EntityID circle = registry.CreateEntity();
     registry.AddComponent<ECS::Transform>(circle, sf::Vector2f{ 400.f, 300.f });
-    registry.AddComponent<ECS::Render>(circle, ECS::Render::Make(CIRCLE, sf::Color(100, 250, 50), "Textures/hola.png"));
+    registry.AddComponent<ECS::Render>(circle, ECS::Render::Make(CIRCLE, sf::Color(100, 250, 50), "Textures/images.jpg"));
     registry.AddComponent<ECS::Velocity>(circle);
     auto& steeringCircle =
     registry.AddComponent<ECS::Steering>(circle);
@@ -45,6 +58,17 @@ int main()
     steeringCircle.type = ECS::SteeringType::Seek;
 
     registry.AddComponent<ECS::Target>(circle);
+
+    ECS::EntityID circle1 = registry.CreateEntity();
+    registry.AddComponent<ECS::Transform>(circle1, sf::Vector2f{ 300.f, 500.f });
+    registry.AddComponent<ECS::Render>(circle1, ECS::Render::Make(CIRCLE, sf::Color(255, 255, 0)));
+    registry.AddComponent<ECS::Velocity>(circle1);
+    auto& steeringCircle1 =
+        registry.AddComponent<ECS::Steering>(circle1);
+    steeringCircle1.enabled = false;
+    steeringCircle1.type = ECS::SteeringType::Seek;
+
+    registry.AddComponent<ECS::Target>(circle1);
 
 
     ECS::EntityID tri = registry.CreateEntity();
@@ -65,12 +89,17 @@ int main()
     camComp.followSpeed = 5.f;        // sube para que se pegue más rápido
     camComp.zoom = 1;
 
+	// Inicializar la semilla para la generación de números aleatorios
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
+
+	// Bucle principal del motor
     while (g_window.isOpen()) {
         while (const std::optional event =
             g_window.m_window->pollEvent()) {
             // ImGui debe recibir todos los eventos de SFML.
             ImGui::SFML::ProcessEvent(*g_window.m_window, *event);
 
+			//Se manejan los eventos de cierre y redimensionamiento de la ventana
             if (event->is<sf::Event::Closed>()) {
                 g_window.close();
             }
