@@ -7,7 +7,6 @@ public:
 	Window() = default;
 	Window(int width, int height, const std::string& title);
 	~Window()=default;
-
 	//void
 	//handleEvents(EngineGUI& gui);
 
@@ -23,6 +22,9 @@ public:
 	void
 		clear(const sf::Color& color = sf::Color(0, 0, 0, 255));
 
+
+	
+	void setMSAALevel(unsigned int level);
 	/**
 	 * @brief Dibuja un objeto en la ventana.
 	 * @param drawable Objeto a dibujar.
@@ -31,6 +33,11 @@ public:
 	void
 		draw(const sf::Drawable& drawable,
 			const sf::RenderStates& states = sf::RenderStates::Default);
+
+	//void requestMSAALevel(unsigned int level);
+
+
+	//void applyPendingMSAA();
 
 	/**
 	 * @brief Muestra el contenido en pantalla.
@@ -73,8 +80,16 @@ public:
 	std::unique_ptr<sf::RenderWindow> m_window=nullptr;
 private:
 	sf::View m_view;
-
 	sf::Vector2f m_baseViewSize;
+
 	sf::Time deltaTime;
 	sf::Clock clock;
+
+	bool m_msaaPending = false;
+	unsigned int m_pendingMSAA = 4;
+	unsigned int m_msaaLevel = 4;
+
+	int m_width = 800;
+	int m_height = 600;
+	std::string m_title;
 };

@@ -16,7 +16,8 @@ namespace ECS
         Arrive,
         Wander,
         Pursuit,
-        ObstacleAvoidance
+        ObstacleAvoidance,
+        FollowPath
     };
 
      /**

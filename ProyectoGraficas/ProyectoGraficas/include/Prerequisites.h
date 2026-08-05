@@ -16,6 +16,9 @@
 #include <tuple>
 #include <cstddef>
 #include <queue>
+#include <array>
+#include <algorithm>
+#include <optional>
 
 //third parties
 #include <SFML/Graphics.hpp>

@@ -63,6 +63,9 @@
     <ClCompile Include="..\ThirdParties\imgui-docking\imgui_widgets.cpp">
       <Filter>Archivos de origen\Imgui</Filter>
     </ClCompile>
+    <ClCompile Include="source\Core\Circuit.cpp">
+      <Filter>Archivos de origen\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Prerequisites.h">
@@ -127,6 +130,12 @@
     </ClInclude>
     <ClInclude Include="include\ESC\System\SteeringBehaivors.h">
       <Filter>Archivos de encabezado\ESC\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Circuit.h">
+      <Filter>Archivos de encabezado\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\Components\PathFollower.h">
+      <Filter>Archivos de encabezado\ESC\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@
 #include "ESC/Components/Transform.h"
 #include "ESC/Components/Steering.h"
 #include "Velocity.h"
+#include "ESC/Components/PathFollower.h"
 namespace ECS::SteeringBehaviors
 {
 
@@ -168,6 +169,53 @@ namespace ECS::SteeringBehaviors
         return Limit(force, steering.maxForce);
     }
 
+    /**
+ * @brief Hace que el agente recorra una ruta de waypoints (ej. un circuito),
+ * desacelerando al acercarse a cada punto y avanzando automáticamente
+ * al siguiente cuando lo alcanza.
+ */
+    inline sf::Vector2f FollowPath(
+        Transform& transform,
+        Velocity& velocity,
+        Steering& steering,
+        PathFollower& path)
+    {
+        if (path.waypoints.empty())
+            return { 0.f, 0.f };
+
+        sf::Vector2f desired =
+            path.CurrentTarget() - transform.position;
+
+        float distance = Length(desired);
+
+        // Si llegamos al radio de llegada, avanzamos al siguiente waypoint.
+        if (distance < path.arrivalRadius)
+        {
+            path.Advance();
+
+            desired = path.CurrentTarget() - transform.position;
+            distance = Length(desired);
+        }
+
+        if (distance == 0.f)
+            return { 0.f, 0.f };
+
+        desired = Normalize(desired);
+
+        float speed = steering.maxSpeed;
+
+        // Desacelera igual que Arrive, pero solo si es el último waypoint y no hace loop
+        // (en un circuito normal con loop=true no queremos que frene nunca).
+        if (!path.loop && path.currentIndex == path.waypoints.size() - 1 && distance < 100.f)
+            speed *= distance / 100.f;
+
+        desired *= speed;
+
+        sf::Vector2f force =
+            desired - velocity.velocity;
+
+        return Limit(force, steering.maxForce);
+    }
     /**
  * @brief Genera un movimiento aleatorio
  * El agente cambia ligeramente su dirección en cada actualización,

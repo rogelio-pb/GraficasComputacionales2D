@@ -2,12 +2,34 @@
 
 Window::Window(int width, int height, const std::string& title)
 {
+	m_width = width;
+	m_height = height;
+	m_title = title;
+	//configuración del contexto OpenGL
+	sf::ContextSettings settings;
+	settings.depthBits = 24;
+	settings.stencilBits = 8;
+	settings.antiAliasingLevel = 4;
+
 	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode({ static_cast<unsigned int>(width),
 		static_cast<unsigned int>(height) }),
 		title,
-		sf::Style::Default);
-	if (m_window) {
-		m_window->setFramerateLimit(60);
+		sf::Style::Default,
+		sf::State::Windowed,
+		settings
+	);
+
+	if (m_window->isOpen()) {
+		//Usa VSync o limite de FPS segun tu necesidad
+		m_window->setVerticalSyncEnabled(true);
+		//m_window->setFramerateLimit(60);
+
+		handleResize(m_window->getSize());
+		const sf::ContextSettings actualSettings =
+			m_window->getSettings();
+
+		MESSAGE("Window", "Window", , "MSAA disponible: " + std::to_string(actualSettings.antiAliansingLevel) + "x");
+
 		MESSAGE("Window", "Window", "Window created successfully");
 
 	}
@@ -61,6 +83,38 @@ Window::Window(int width, int height, const std::string& title)
 		}
 	}
 
+	void Window::setMSAALevel(unsigned int level)
+	{
+		if (!m_window) {
+			return;
+		}
+		const sf::Vector2u currentSize = m_window->getSize();
+		const sf::Vector2i currentPosition = m_window->getPosition();
+		const sf :: View currentView = m_window->getView();
+
+		sf::ContextSettings settings;
+		settings.depthBits = 24;
+		settings.stencilBits = 8;
+		settings.antiAliasingLevel = level;
+
+		m_window->create(
+			sf::VideoMode(currentSize),
+			m_title,
+			sf::Style::Default,
+			sf::State::Windowed,
+			settings
+		);
+		m_window->setPosition(currentPosition);
+		m_window->setView(currentView);
+		m_window->setVerticalSyncEnabled(true);
+
+		const sf::ContextSettings actualSettings =
+			m_window->getSettings();
+
+		MESSAGE("Window", "Window", , "MSAA disponible: " + std::to_string(actualSettings.antiAliansingLevel) + "x");
+
+		//////////////////
+	}
 	void
 		Window::display() {
 		if (m_window) {

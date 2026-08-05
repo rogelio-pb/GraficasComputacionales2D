@@ -11,6 +11,7 @@
 #include "ESC/Components/Target.h"
 #include "Velocity.h"
 #include "ESC/System/SteeringBehaivors.h"
+#include "ESC/Components/PathFollower.h"
 
 namespace ECS
 {
@@ -19,7 +20,7 @@ namespace ECS
     public:
 
         /**
-        * @brief Actualiza todos los agentes con Steering        
+        * @brief Actualiza todos los agentes con Steering
         * Recorre las entidades que poseen los componentes necesarios y
         * ejecuta el comportamiento seleccionado (Seek, Flee, Arrive,
         * Wander, Pursuit u Obstacle Avoidance) finalmente actualiza la
@@ -28,6 +29,7 @@ namespace ECS
         */
         void OnUpdate(Registry& registry, float dt) override
         {
+            // --- Comportamientos que usan Target (Seek, Flee, Arrive, Pursuit, ObstacleAvoidance) ---
             registry.GetView<Transform, Velocity, Steering, Target>().Each(
                 [&](EntityID,
                     Transform& transform,
@@ -35,93 +37,62 @@ namespace ECS
                     Steering& steering,
                     Target& target)
                 {
-                    /// Fuerza que se aplicará durante esta actualización.
-                    sf::Vector2f force{ 0.f,0.f };
-
-                    // Si el Steering está desactivado el agente se detiene.
                     if (!steering.enabled)
                     {
                         velocity.velocity = { 0.f,0.f };
                         return;
                     }
 
-                    // Ejecuta el comportamiento seleccionado.
+                    sf::Vector2f force{ 0.f,0.f };
+
                     switch (steering.type)
                     {
                     case SteeringType::Seek:
-                        force = SteeringBehaviors::Seek(
-                            registry,
-                            transform,
-                            velocity,
-                            steering,
-                            target.entity);
+                        force = SteeringBehaviors::Seek(registry, transform, velocity, steering, target.entity);
                         break;
-
                     case SteeringType::Flee:
-                        force = SteeringBehaviors::Flee(
-                            registry,
-                            transform,
-                            velocity,
-                            steering,
-                            target.entity);
+                        force = SteeringBehaviors::Flee(registry, transform, velocity, steering, target.entity);
                         break;
-
                     case SteeringType::Arrive:
-                        force = SteeringBehaviors::Arrive(
-                            registry,
-                            transform,
-                            velocity,
-                            steering,
-                            target.entity);
+                        force = SteeringBehaviors::Arrive(registry, transform, velocity, steering, target.entity);
                         break;
-
                     case SteeringType::Wander:
-                        force = SteeringBehaviors::Wander(
-                            transform,
-                            velocity,
-                            steering);
+                        force = SteeringBehaviors::Wander(transform, velocity, steering);
                         break;
-
                     case SteeringType::Pursuit:
-                        force = SteeringBehaviors::Pursuit(
-                            registry,
-                            transform,
-                            velocity,
-                            steering,
-                            target.entity);
+                        force = SteeringBehaviors::Pursuit(registry, transform, velocity, steering, target.entity);
                         break;
-
                     case SteeringType::ObstacleAvoidance:
-                        sf::Vector2f seekForce =
-                            SteeringBehaviors::Seek(
-                                registry,
-                                transform,
-                                velocity,
-                                steering,
-                                target.entity);
-
-                        sf::Vector2f avoidForce =
-                            SteeringBehaviors::ObstacleAvoidance(
-                                registry,
-                                transform,
-                                velocity,
-                                steering);
-
-                        // Combina Seek con Obstacle Avoidance
-                       // para que el agente siga al objetivo
-                       // mientras evita obstáculos
+                    {
+                        sf::Vector2f seekForce = SteeringBehaviors::Seek(registry, transform, velocity, steering, target.entity);
+                        sf::Vector2f avoidForce = SteeringBehaviors::ObstacleAvoidance(registry, transform, velocity, steering);
                         force = seekForce + avoidForce;
-
+                        break;
+                    }
+                    default:
                         break;
                     }
 
                     velocity.velocity += force * dt;
+                    velocity.velocity = SteeringBehaviors::Limit(velocity.velocity, steering.maxSpeed);
+                });
 
-                    // Evita que el agente supere su velocidad máxima.
-                    velocity.velocity =
-                        SteeringBehaviors::Limit(
-                            velocity.velocity,
-                            steering.maxSpeed);
+            // --- Karts siguiendo el circuito (FollowPath) ---
+            registry.GetView<Transform, Velocity, Steering, PathFollower>().Each(
+                [&](EntityID,
+                    Transform& transform,
+                    Velocity& velocity,
+                    Steering& steering,
+                    PathFollower& path)
+                {
+                    if (!steering.enabled || steering.type != SteeringType::FollowPath)
+                        return;
+
+                    sf::Vector2f force =
+                        SteeringBehaviors::FollowPath(transform, velocity, steering, path);
+
+                    velocity.velocity += force * dt;
+                    velocity.velocity = SteeringBehaviors::Limit(velocity.velocity, steering.maxSpeed);
                 });
         }
     };
