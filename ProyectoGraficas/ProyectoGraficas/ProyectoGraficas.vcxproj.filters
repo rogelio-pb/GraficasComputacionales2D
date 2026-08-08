@@ -137,5 +137,11 @@
     <ClInclude Include="include\ESC\Components\PathFollower.h">
       <Filter>Archivos de encabezado\ESC\Components</Filter>
     </ClInclude>
+    <ClInclude Include="include\ESC\Components\Collider.h">
+      <Filter>Archivos de encabezado\ESC\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ESC\System\ColliderSystem.h">
+      <Filter>Archivos de encabezado\ESC\System</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

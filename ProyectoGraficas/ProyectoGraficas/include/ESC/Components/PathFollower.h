@@ -15,17 +15,13 @@ namespace ECS
      */
     struct PathFollower
     {
-        /// Puntos que conforman la ruta (ej. el circuito).
         std::vector<sf::Vector2f> waypoints;
-
-        /// Índice del waypoint que se está persiguiendo actualmente.
         std::size_t currentIndex = 0;
-
-        /// Distancia a la que se considera "alcanzado" un waypoint.
         float arrivalRadius = 40.f;
-
-        /// Si es true, al llegar al último waypoint vuelve al primero (vuelta de circuito).
         bool loop = true;
+        float lateralOffset = 0.f;
+        int lapCount = 0;
+        bool finished = false;
 
         PathFollower() = default;
 
@@ -38,11 +34,51 @@ namespace ECS
         {}
 
         /**
-         * @brief Devuelve el waypoint actual objetivo.
+         * @brief Devuelve el waypoint actual objetivo (sin offset).
          */
         const sf::Vector2f& CurrentTarget() const
         {
             return waypoints[currentIndex];
+        }
+
+        /**
+         * @brief Devuelve el índice del siguiente waypoint en la ruta,
+         * respetando el loop.
+         */
+        std::size_t NextIndex() const
+        {
+            std::size_t next = currentIndex + 1;
+
+            if (next >= waypoints.size())
+                next = loop ? 0 : currentIndex;
+
+            return next;
+        }
+
+        /**
+         * @brief Devuelve el punto que la entidad debe perseguir realmente:
+         * el waypoint actual desplazado perpendicularmente a la dirección
+         * de la ruta según lateralOffset. Si lateralOffset es 0, es igual
+         * a CurrentTarget().
+         */
+        sf::Vector2f GetSteeringTarget() const
+        {
+            if (waypoints.size() < 2 || lateralOffset == 0.f)
+                return CurrentTarget();
+
+            sf::Vector2f dir = waypoints[NextIndex()] - CurrentTarget();
+
+            float len = std::sqrt(dir.x * dir.x + dir.y * dir.y);
+
+            if (len == 0.f)
+                return CurrentTarget();
+
+            dir /= len;
+
+            // Vector perpendicular a la dirección de avance.
+            sf::Vector2f perp{ -dir.y, dir.x };
+
+            return CurrentTarget() + perp * lateralOffset;
         }
 
         /**
@@ -54,7 +90,25 @@ namespace ECS
             currentIndex++;
 
             if (currentIndex >= waypoints.size())
+            {
                 currentIndex = loop ? 0 : waypoints.size() - 1;
+
+                if (loop)
+                    lapCount++;
+            }
+        }
+
+        /**
+         * @brief Progreso total de la entidad a lo largo del circuito,
+         * combinando vueltas completas + fracción del waypoint actual.
+         */
+        float TotalProgress() const
+        {
+            if (waypoints.empty())
+                return 0.f;
+
+            return static_cast<float>(lapCount) * waypoints.size() +
+                static_cast<float>(currentIndex);
         }
     };
 }

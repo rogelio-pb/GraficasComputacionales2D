@@ -183,17 +183,17 @@ namespace ECS::SteeringBehaviors
         if (path.waypoints.empty())
             return { 0.f, 0.f };
 
-        sf::Vector2f desired =
-            path.CurrentTarget() - transform.position;
+        sf::Vector2f steerPoint = path.GetSteeringTarget();
+        sf::Vector2f desired = steerPoint - transform.position;
 
         float distance = Length(desired);
 
-        // Si llegamos al radio de llegada, avanzamos al siguiente waypoint.
         if (distance < path.arrivalRadius)
         {
             path.Advance();
 
-            desired = path.CurrentTarget() - transform.position;
+            steerPoint = path.GetSteeringTarget();
+            desired = steerPoint - transform.position;
             distance = Length(desired);
         }
 
@@ -204,15 +204,12 @@ namespace ECS::SteeringBehaviors
 
         float speed = steering.maxSpeed;
 
-        // Desacelera igual que Arrive, pero solo si es el último waypoint y no hace loop
-        // (en un circuito normal con loop=true no queremos que frene nunca).
         if (!path.loop && path.currentIndex == path.waypoints.size() - 1 && distance < 100.f)
             speed *= distance / 100.f;
 
         desired *= speed;
 
-        sf::Vector2f force =
-            desired - velocity.velocity;
+        sf::Vector2f force = desired - velocity.velocity;
 
         return Limit(force, steering.maxForce);
     }

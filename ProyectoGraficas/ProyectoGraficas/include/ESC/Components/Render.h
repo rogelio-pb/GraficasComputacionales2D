@@ -98,11 +98,10 @@ namespace ECS {
 			}
 			if (s) s->setFillColor(color); 
 				Render render{ s, color };
-			//si se paso una ruta, intenta cargar el sprite (silencioso si falla)
-			if (!texturePath.empty())
-				render.SetTexture(
-					"C:/Users/rogel/OneDrive/Documentos/GitHub/GraficasComputacionales2D/ProyectoGraficas/ProyectoGraficas/bin/Textures/Hola.png");
-			return render;
+				if (!texturePath.empty())
+					render.SetTexture(texturePath);
+			
+				return render;
 
 		}
 	

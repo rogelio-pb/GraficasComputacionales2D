@@ -36,6 +36,7 @@
     <ClInclude Include="include\Core\Window.h" />
     <ClInclude Include="include\ESC\ComponentPool.h" />
     <ClInclude Include="include\ESC\Components\Camera.h" />
+    <ClInclude Include="include\ESC\Components\Collider.h" />
     <ClInclude Include="include\ESC\Components\PathFollower.h" />
     <ClInclude Include="include\ESC\Components\Render.h" />
     <ClInclude Include="include\ESC\Components\Steering.h" />
@@ -45,6 +46,7 @@
     <ClInclude Include="include\ESC\SparseSet.h" />
     <ClInclude Include="include\ESC\System.h" />
     <ClInclude Include="include\ESC\System\CameraSystem.h" />
+    <ClInclude Include="include\ESC\System\ColliderSystem.h" />
     <ClInclude Include="include\ESC\System\MovementSystem.h" />
     <ClInclude Include="include\ESC\System\RenderSystem.h" />
     <ClInclude Include="include\ESC\System\SteeringBehaivors.h" />
