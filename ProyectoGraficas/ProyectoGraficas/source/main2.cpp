@@ -50,7 +50,7 @@ int main()
     // --- Karts que siguen el circuito (FollowPath) ---
     const auto& trackWaypoints = circuit.GetWaypoints();
     const int numKarts = 4;
-    const int totalLaps = 3;
+    const int totalLaps = 1;
 
     // Guardamos referencia de cada kart (entidad + color + nombre) para
     // poder armar el podio sin tener que ir a buscarlo componente por componente.
@@ -112,7 +112,7 @@ int main()
 
     // --- Entidades de prueba (sin cambios) ---
     ECS::EntityID circle1 = registry.CreateEntity();
-    registry.AddComponent<ECS::Transform>(circle1, sf::Vector2f{ 200.f, 10.f });
+    registry.AddComponent<ECS::Transform>(circle1, sf::Vector2f{ 400.f, -70.f });
     registry.AddComponent<ECS::Render>(circle1, ECS::Render::Make(CIRCLE, sf::Color(255, 255, 0)));
     registry.AddComponent<ECS::Velocity>(circle1);
     auto& steeringCircle1 =
@@ -122,7 +122,7 @@ int main()
     registry.AddComponent<ECS::Target>(circle1);
 
     ECS::EntityID tri = registry.CreateEntity();
-    registry.AddComponent<ECS::Transform>(tri, sf::Vector2f{ 200.f, 200.f }, 45.f);
+    registry.AddComponent<ECS::Transform>(tri, sf::Vector2f{ 400.f, -70.f }, 45.f);
     registry.AddComponent<ECS::Render>(tri, ECS::Render::Make(TRIANGLE, sf::Color::Cyan));
     registry.AddComponent<ECS::Velocity>(tri);
     auto& steering = registry.AddComponent<ECS::Steering>(tri);
@@ -131,11 +131,11 @@ int main()
     registry.AddComponent<ECS::Target>(tri);
 
     ECS::EntityID cam = registry.CreateEntity();
-    registry.AddComponent<ECS::Transform>(cam, sf::Vector2f{ 0.f, 0.f });
+    registry.AddComponent<ECS::Transform>(cam, sf::Vector2f{ 800.f, 500.f });
     auto& camComp = registry.AddComponent<ECS::Camera>(cam);
     camComp.followTarget = ECS::NULL_ENTITY;
     camComp.followSpeed = 5.f;
-    camComp.zoom = 1;
+    camComp.zoom = 0.770;
 
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
@@ -188,11 +188,21 @@ int main()
             auto& path = registry.GetComponent<ECS::PathFollower>(k.entity);
             ImVec4 col(k.color.r / 255.f, k.color.g / 255.f, k.color.b / 255.f, 1.f);
 
+            std::string texto;
+
             if (path.finished)
-                ImGui::TextColored(col, "%s - META", k.name.c_str());
+            {
+                texto = k.name + " - META";
+            }
             else
-                ImGui::TextColored(col, "%s - Vuelta %d/%d",
-                    k.name.c_str(), path.lapCount + 1, totalLaps);
+            {
+                texto = k.name + " - Vuelta " +
+                    std::to_string(path.lapCount + 1) + "/" + std::to_string(totalLaps);
+            }
+
+            ImGui::PushStyleColor(ImGuiCol_Text, col);
+            ImGui::TextUnformatted(texto.c_str());
+            ImGui::PopStyleColor();
         }
         ImGui::End();
 
