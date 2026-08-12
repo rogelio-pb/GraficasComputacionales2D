@@ -1,5 +1,11 @@
 #include "Core/Circuit.h"
 
+/**
+ * @brief Construye el circuito.
+ * Carga la textura de la pista desde "Textures/pista1.png" y define
+ * la lista de waypoints que conforman la ruta a seguir, calculados
+ * previamente a partir del centro del carril de la imagen de la pista.
+ */
 Circuit::Circuit()
 {
     if (!m_texture.loadFromFile("Textures/pista1.png"))
@@ -9,14 +15,14 @@ Circuit::Circuit()
 
     m_sprite.emplace(m_texture);
 
-    // Escalar para que ocupe la ventana (800x600)
+
     sf::Vector2u size = m_texture.getSize();
 
     m_sprite->setScale({ 1.f,1.f });
-    
 
-    // Waypoints (ejemplo)
-	m_waypoints.emplace_back(100.f, 100.f);
+
+    // Waypoints
+    m_waypoints.emplace_back(100.f, 100.f);
     m_waypoints =
     {
         // Recta de meta (hacia la derecha)
@@ -103,16 +109,26 @@ Circuit::Circuit()
     };
 }
 
+/**
+ * @brief Devuelve la lista de waypoints del circuito
+ * @return Referencia constante al vector de posiciones que conforman
+ * la ruta del circuito, en el orden en que deben recorrerse
+ */
 const std::vector<sf::Vector2f>& Circuit::GetWaypoints() const
 {
     return m_waypoints;
 }
 
+/**
+ * @brief Dibuja el circuito en la ventana.
+ * Renderiza, en orden: el sprite de la pista, una línea roja que conecta
+ * todos los waypoints (cerrando el loop de vuelta al primero) para
+ * visualizar la ruta, y un círculo azul sobre cada waypoint individual
+ */
 void Circuit::Draw(Window& window)
 {
     window.m_window->draw(*m_sprite);
 
-    // Línea que conecta todos los waypoints (+1 para cerrar el loop).
     sf::VertexArray line(sf::PrimitiveType::LineStrip, m_waypoints.size() + 1);
 
     for (std::size_t i = 0; i < m_waypoints.size(); ++i)
@@ -121,17 +137,17 @@ void Circuit::Draw(Window& window)
         line[i].color = sf::Color::Red;
     }
 
-    // Último vértice = el primer waypoint, para cerrar el circuito visualmente.
+
     line[m_waypoints.size()].position = m_waypoints[0];
     line[m_waypoints.size()].color = sf::Color::Red;
 
     window.m_window->draw(line);
 
-    // Puntos de cada waypoint (ya lo tenías).
+
     for (const auto& waypoint : m_waypoints)
     {
         sf::CircleShape shape(5.f);
-        shape.setOrigin({ 5.f, 5.f });   
+        shape.setOrigin({ 5.f, 5.f });
         shape.setPosition(waypoint);
         shape.setFillColor(sf::Color::Blue);
         window.m_window->draw(shape);

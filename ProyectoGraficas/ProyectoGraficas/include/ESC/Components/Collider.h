@@ -1,7 +1,7 @@
 /**
  * @file Collider.h
  * @brief Componente simple de colisión circular, usado para detectar
- * overlap entre entidades (ej. karts) y resolverlo empujándolas aparte.
+ * overlap entre entidades  y resolverlo empujandolas aparte.
  */
 #pragma once
 #include "Prerequisites.h"

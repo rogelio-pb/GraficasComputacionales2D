@@ -139,7 +139,7 @@ int main()
 
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
-    // Orden de llegada: se va llenando conforme cada kart termina totalLaps.
+    // Orden de llegada: se va llenando conforme cada kart termina totalLaps
     std::vector<ECS::EntityID> finishOrder;
 
     while (g_window.isOpen()) {
