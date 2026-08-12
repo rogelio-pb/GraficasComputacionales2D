@@ -165,7 +165,7 @@ int main()
 
         registry.UpdateSystems(dt);
 
-        // --- Detectar llegadas y llenar finishOrder ---
+        //Detectar llegadas y llenar finishOrder
         for (auto& k : karts)
         {
             auto& path = registry.GetComponent<ECS::PathFollower>(k.entity);
@@ -181,7 +181,7 @@ int main()
             }
         }
 
-        // --- HUD: vuelta actual de cada kart (mientras no ha terminado la carrera) ---
+        //  HUD: vuelta actual de cada kart (mientras no ha terminado la carrera) 
         ImGui::Begin("Carrera");
         for (auto& k : karts)
         {
@@ -206,7 +206,7 @@ int main()
         }
         ImGui::End();
 
-        // --- Podio: se muestra en cuanto haya al menos 1 kart en meta ---
+        //Podio: se muestra en cuanto haya al menos 1 kart en meta
         if (!finishOrder.empty())
         {
             ImGui::Begin("Podio");
@@ -217,7 +217,7 @@ int main()
             {
                 ECS::EntityID id = finishOrder[pos];
 
-                // Buscamos el KartInfo correspondiente para nombre y color.
+                //Buscamos el KartInfo correspondiente para nombre y color.
                 auto it = std::find_if(karts.begin(), karts.end(),
                     [id](const KartInfo& k) { return k.entity == id; });
 

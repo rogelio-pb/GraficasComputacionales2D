@@ -21,7 +21,7 @@ namespace ECS
          * @brief Revisa cada par de entidades con Collider y, si están
          * superpuestas (distancia < radio1 + radio2), las separa
          * empujándolas en direcciones opuestas según la penetración.
-         * No aplica física real (masa, rebote), solo corrección de posición.
+         * No aplica física real solo correccion de posicion.
          */
         void OnUpdate(Registry& registry, float dt) override
         {
